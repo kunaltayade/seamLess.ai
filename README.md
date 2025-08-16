@@ -27,6 +27,13 @@ You can run any Python file by right-clicking and selecting 'Run Python File in 
 /Users/kunaltayade/PythonFun/.venv/bin/python microservice.py
 ```
 
+## Microservices
+- All microservice-related Python files are now in the `service/` folder.
+  - `service/microservice.py`
+  - `service/hello.py`
+
+Update your Dockerfile to copy from the `service/` folder.
+
 ## Angular Frontend
 1. Install Node.js if not already installed.
 2. Run:
@@ -71,3 +78,46 @@ export class HelloComponent implements OnInit {
 ---
 - Ensure CORS is enabled in the Python backend (already set).
 - The Angular app will display "Hello World" from the Python microservice.
+
+# Docker Usage
+## Build and Run Microservice
+```sh
+docker build -t python-microservice .
+docker run -p 5000:5000 python-microservice
+```
+
+## Using Docker Compose
+```sh
+docker-compose up --build
+```
+
+## Modular Structure
+- Docker files are now in the `docker/` folder.
+- Kubernetes manifests are now in the `k8s/` folder.
+
+### Docker
+- `docker/Dockerfile`
+- `docker/docker-compose.yml`
+
+### Kubernetes
+- `k8s/deployment.yaml`
+- `k8s/service.yaml`
+
+Update your commands accordingly:
+- For Docker Compose: `docker-compose -f docker/docker-compose.yml up --build`
+- For Kubernetes: `kubectl apply -f k8s/`
+
+# Kubernetes Usage
+## Build Docker Image for Kubernetes
+```sh
+docker build -t python-microservice:latest .
+```
+Tag and push to your container registry (e.g., Docker Hub) before deploying.
+
+## Deploy to Kubernetes
+```sh
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+```
+
+Access the service via the exposed port (default: 5000).
